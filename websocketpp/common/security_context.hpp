@@ -37,9 +37,14 @@
 
 #ifdef _WIN32
 #include <winapifamily.h>
-#endif
 
-#if defined(_WIN32) && WINAPI_FAMILY_PARTITION(WINAPI_FAMILY_DESKTOP)
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+#define WEBSOCKETPP_WIN32
+#endif // WINAPI_FAMILY_PARTITION
+
+#endif // _WIN32
+
+#ifdef WEBSOCKETPP_WIN32
 
 #include <websocketpp/common/string_utils.hpp>
 #include <websocketpp/base64/base64.hpp>
@@ -204,7 +209,7 @@ private:
 }           // lib
 }               // websocket
 
-#elif defined(__APPLE__) && TARGET_OS_OSX // _WIN32
+#elif defined(__APPLE__) && TARGET_OS_OSX // WEBSOCKETPP_WIN32
 
 #include <GSS/GSS.h> // the library that lets us request kerberos tokens - https://tools.ietf.org/html/rfc2744
 #include <Security/Security.h>
@@ -318,7 +323,7 @@ private:
 }       // lib
 }       // websocket
 
-#else //_WIN32
+#else // WEBSOCKETPP_WIN32
 
 namespace websocketpp {
 namespace lib {
@@ -340,5 +345,5 @@ public:
 }       // websocket
 
 
-#endif //_WIN32
+#endif // WEBSOCKETPP_WIN32
 #endif // WEBSOCKETPP_COMMON_SECURITY_CONTEXT_HPP
